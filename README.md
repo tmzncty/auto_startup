@@ -12,6 +12,10 @@
 # 适用范围
 WINDOWS
 # 使用方法
+# clear_startup_folder.py
+这玩意是用来清理开始菜单文件夹的，但是注意是全清。
+#  auto_startup_with_gui_2.0.1.py
+这玩意是自动添加进程到开机启动的
 ## py文件
 ```
 pip install -r requirements.txt
