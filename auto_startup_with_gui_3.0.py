@@ -8,11 +8,15 @@ def clear_startup_folder():
     startup_path = os.path.expanduser(r'~\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup')
     for item in os.listdir(startup_path):
         item_path = os.path.join(startup_path, item)
-        if os.path.isfile(item_path):
-            os.remove(item_path)  # 删除所有文件
-        elif os.path.isdir(item_path):
-            shutil.rmtree(item_path)  # 删除所有目录及其内容
+        try:
+            if os.path.isfile(item_path):
+                os.remove(item_path)  # 尝试删除文件
+            elif os.path.isdir(item_path):
+                shutil.rmtree(item_path)  # 尝试删除目录及其内容
+        except PermissionError:
+            print(f"Skipping {item_path}: File is in use or permission denied")
     print("Startup folder cleared.")
+
 
 def add_to_startup(exclude_list):
     startup_path = os.path.expanduser(r'~\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup')
