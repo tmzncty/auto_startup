@@ -1,6 +1,6 @@
-import psutil
 import os
-import shutil
+import psutil
+import winshell
 import sys
 import time
 
@@ -23,7 +23,9 @@ def add_to_startup(exclude_list):
             exe_path = proc.info['exe']
             if proc.info['name'] not in exclude_list and exe_path and os.path.isfile(exe_path):
                 shortcut_path = os.path.join(startup_path, proc.info['name'] + '.lnk')
-                shutil.copyfile(exe_path, shortcut_path)
+                with winshell.shortcut(shortcut_path) as shortcut:
+                    shortcut.path = exe_path
+                    shortcut.working_directory = os.path.dirname(exe_path)
                 added_programs.append(proc.info['name'])
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
             pass
